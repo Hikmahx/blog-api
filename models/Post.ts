@@ -3,18 +3,14 @@ import { Schema, model, Document } from "mongoose";
 export interface IPost extends Document {
   title: string;
   content: string;
-  author: any;
+  author: string;
 }
 
 const postSchema = new Schema<IPost>(
   {
     title: { type: String, required: true },
     content: { type: String, required: true },
-    author: {
-      type: Schema.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    author: { type: String, required: true },
   },
   { timestamps: true }
 );
