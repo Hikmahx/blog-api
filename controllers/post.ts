@@ -1,0 +1,103 @@
+import { validationResult } from "express-validator";
+import Post from "../models/Post";
+
+// CREATE POST
+export const createPost = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const { title, content, author } = req.body;
+
+    const newPost = new Post({
+      title,
+      content,
+      author,
+    });
+
+    await newPost.save();
+    res.status(201).json(newPost);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// GET ALL POSTS
+export const getPosts = async (req, res) => {
+  try {
+    const posts = await Post.find();
+
+    res.status(200).json(posts);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// GET POST BY ID
+export const getPostById = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    res.status(200).json(post);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// UPDATE POST
+export const updatePost = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    const { title, content, author } = req.body;
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      { title, content, author },
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).json(updatedPost);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// DELETE POST
+export const deletePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    await Post.findByIdAndDelete(req.params.postId);
+
+    res.status(204).json({ message: "Post deleted" });
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
