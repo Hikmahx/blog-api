@@ -14,6 +14,8 @@ app.use(express.json({ extended: false }));
 // CORS
 app.use(cors());
 
+// ROUTES
+app.use("/api/posts", require("./routes/post"));
 
 app.get("/", (req: any, res: any) => {
   console.log("Hello world");
