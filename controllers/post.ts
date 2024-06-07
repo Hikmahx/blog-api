@@ -1,8 +1,13 @@
+import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import Post from "../models/Post";
+import Post, {IPost} from "../models/Post";
+
+interface AuthRequest extends Request {
+  post?: IPost;
+}
 
 // CREATE POST
-export const createPost = async (req, res) => {
+export const createPost = async (req: AuthRequest, res:Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -26,7 +31,7 @@ export const createPost = async (req, res) => {
 };
 
 // GET ALL POSTS
-export const getPosts = async (req, res) => {
+export const getPosts = async (req: Request, res:Response) => {
   try {
     const posts = await Post.find();
 
@@ -38,7 +43,7 @@ export const getPosts = async (req, res) => {
 };
 
 // GET POST BY ID
-export const getPostById = async (req, res) => {
+export const getPostById = async (req: Request, res:Response) => {
   try {
     const post = await Post.findById(req.params.postId);
 
@@ -54,7 +59,7 @@ export const getPostById = async (req, res) => {
 };
 
 // UPDATE POST
-export const updatePost = async (req, res) => {
+export const updatePost = async (req: AuthRequest, res:Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -85,7 +90,7 @@ export const updatePost = async (req, res) => {
 };
 
 // DELETE POST
-export const deletePost = async (req, res) => {
+export const deletePost = async (req: Request, res:Response) => {
   try {
     const post = await Post.findById(req.params.postId);
 
