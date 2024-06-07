@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/", getPosts);
 
 // GET TASKS BY ID
-router.get("/", getPostById);
+router.get("/:postId", getPostById);
 
 // CREATE NEW TASK
 router.post(
