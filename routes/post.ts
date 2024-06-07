@@ -19,7 +19,7 @@ router.get("/", getPostById);
 // CREATE NEW TASK
 router.post(
   "/",
-  body("title", "Title cannot be emptu").not().isEmpty(),
+  body("title", "Title cannot be empty").not().isEmpty(),
   body("content", "Content cannot be empty").not().isEmpty(),
   body("author", "Author cannot be empty").not().isEmpty(),
   createPost
@@ -28,7 +28,7 @@ router.post(
 // UPDATE TASK
 router.put(
   "/:postId",
-  body("title", "Title cannot be emptu").not().isEmpty(),
+  body("title", "Title cannot be empty").not().isEmpty(),
   body("content", "Content cannot be empty").not().isEmpty(),
   body("author", "Author cannot be empty").not().isEmpty(),
   updatePost
