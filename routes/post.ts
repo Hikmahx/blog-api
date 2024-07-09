@@ -10,31 +10,33 @@ import {
 
 const router = express.Router();
 
-// GET ALL TASKS
+// GET ALL POSTS
 router.get("/", getPosts);
 
-// GET TASKS BY ID
+// GET POST BY ID
 router.get("/:postId", getPostById);
 
-// CREATE NEW TASK
+// CREATE NEW POST
 router.post(
   "/",
   body("title", "Title cannot be empty").not().isEmpty(),
   body("content", "Content cannot be empty").not().isEmpty(),
-  body("author", "Author cannot be empty").not().isEmpty(),
+  body("author.name", "Author name cannot be empty").not().isEmpty(),
+  body("author.avatar", "Author avatar cannot be empty").not().isEmpty(),
   createPost
 );
 
-// UPDATE TASK
+// UPDATE POST
 router.put(
   "/:postId",
   body("title", "Title cannot be empty").not().isEmpty(),
   body("content", "Content cannot be empty").not().isEmpty(),
-  body("author", "Author cannot be empty").not().isEmpty(),
+  body("author.name", "Author name cannot be empty").not().isEmpty(),
+  body("author.avatar", "Author avatar cannot be empty").not().isEmpty(),
   updatePost
 );
 
-// DELETE TASK
+// DELETE POST
 router.delete("/:postId", deletePost);
 
 module.exports = router;
