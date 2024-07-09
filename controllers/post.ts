@@ -35,8 +35,26 @@ export const createPost = async (req: AuthRequest, res: Response) => {
 // GET ALL POSTS
 export const getPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await Post.find();
-    res.status(200).json(posts);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = 10;
+
+    const sortBy = (req.query.sortBy as string) || "date";
+
+    const startIndex = (page - 1) * limit;
+    const totalPosts = await Post.countDocuments();
+    const numberOfPages = Math.ceil(totalPosts / limit);
+
+    const posts = await Post.find()
+      .sort(sortBy === "title" ? { title: 1 } : { createdAt: -1 })
+      .skip(startIndex)
+      .limit(limit);
+
+    res.status(200).json({
+      totalPosts,
+      numberOfPages,
+      currentPage: page,
+      posts,
+    });
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ message: "Internal server error" });
