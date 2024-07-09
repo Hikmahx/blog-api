@@ -42,7 +42,7 @@ export const getPosts = async (req: Request, res: Response) => {
 
     const startIndex = (page - 1) * limit;
     const totalPosts = await Post.countDocuments();
-    const numberOfPages = Math.ceil(totalPosts / limit);
+    const pageCount = Math.ceil(totalPosts / limit);
 
     const posts = await Post.find()
       .sort(sortBy === "title" ? { title: 1 } : { createdAt: -1 })
@@ -51,7 +51,7 @@ export const getPosts = async (req: Request, res: Response) => {
 
     res.status(200).json({
       totalPosts,
-      numberOfPages,
+      pageCount,
       currentPage: page,
       posts,
     });
