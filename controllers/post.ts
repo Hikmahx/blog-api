@@ -36,7 +36,7 @@ export const createPost = async (req: AuthRequest, res: Response) => {
 export const getPosts = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
-    const limit = 10;
+    const limit = 12;
 
     const sortBy = (req.query.sortBy as string) || "date";
 

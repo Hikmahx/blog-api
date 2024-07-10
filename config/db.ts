@@ -63,7 +63,7 @@ export const connectDB = async () => {
     // make a bunch of post data
     let posts: IPost[] = [];
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 50; i++) {
       const newPost: IPost = new Post({
         title: faker.lorem.sentence(),
         content: generatedHTMLContent(),
