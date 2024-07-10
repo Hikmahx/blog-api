@@ -4,7 +4,7 @@
   "description": "blog api backend",
   "main": "server.ts",
   "scripts": {
-    "start": "node server.ts",
+    "start": "ts-node server.ts",
     "server": "nodemon server.ts"
   },
   "author": "hikmahx",
